@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIF Arşivi - goyzinparis.vercel.app</title>
+    <meta property="og:title" content="GIF Arşivi">
+    <meta property="og:description" content="Tüm GIF'lerim burada!">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://goyzinparis.vercel.app">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .gif-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
+        }
+
+        .gif-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .gif-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gif-container {
+            position: relative;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+        }
+
+        .gif-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .gif-number {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            backdrop-filter: blur(5px);
+        }
+
+        .copy-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .copy-btn:hover {
+            background: rgba(102, 126, 234, 0.9);
+            transform: scale(1.05);
+        }
+
+        .gif-info {
+            padding: 15px;
+            background: white;
+        }
+
+        .gif-filename {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+            word-break: break-all;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            z-index: 1000;
+            animation: slideUp 0.3s ease-out;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px;
+            background: white;
+            border-radius: 15px;
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: white;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .gif-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; }
+            .controls { flex-direction: column; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎬 GIF Arşivi</h1>
+            <div class="subtitle">Tüm GIF'lerim tek bir yerde</div>
+            <div class="stats" id="stats">Yükleniyor...</div>
+        </div>
+
+        <div class="controls">
+            <input type="text" class="search-box" id="searchInput" placeholder="🔍 GIF ara...">
+            <button class="btn btn-primary" onclick="copyAllLinks()">📋 Tüm Linkleri Kopyala</button>
+            <button class="btn btn-success" onclick="copyAllDiscordEmbeds()">💬 Tüm Embed Kodlarını Kopyala</button>
+            <button class="btn btn-danger" onclick="resetSearch()">🔄 Sıfırla</button>
+        </div>
+
+        <div class="gif-grid" id="gifGrid"></div>
+        <footer>
+            <p>💡 İpucu: Herhangi bir GIF'e tıklayarak Discord'a yapıştırmak için kopyalayın</p>
+            <p>🔗 goyzinparis.vercel.app | Toplam 20 GIF</p>
+        </footer>
+    </div>
+
+    <script>
+        // GIF listesi - ROOT dizinindeki GIF'ler (gifs klasörü yok, direkt root'ta)
+        // https://goyzinparis.vercel.app/1.gif, /2.gif, vs.
+        const gifs = [
+            { number: 1, url: "https://goyzinparis.vercel.app/1.gif", filename: "1.gif" },
+            { number: 2, url: "https://goyzinparis.vercel.app/2.gif", filename: "2.gif" },
+            { number: 3, url: "https://goyzinparis.vercel.app/3.gif", filename: "3.gif" },
+            { number: 4, url: "https://goyzinparis.vercel.app/4.gif", filename: "4.gif" },
+            { number: 5, url: "https://goyzinparis.vercel.app/5.gif", filename: "5.gif" },
+            { number: 6, url: "https://goyzinparis.vercel.app/6.gif", filename: "6.gif" },
+            { number: 7, url: "https://goyzinparis.vercel.app/7.gif", filename: "7.gif" },
+            { number: 8, url: "https://goyzinparis.vercel.app/8.gif", filename: "8.gif" },
+            { number: 9, url: "https://goyzinparis.vercel.app/9.gif", filename: "9.gif" },
+            { number: 10, url: "https://goyzinparis.vercel.app/10.gif", filename: "10.gif" },
+            { number: 11, url: "https://goyzinparis.vercel.app/11.gif", filename: "11.gif" },
+            { number: 12, url: "https://goyzinparis.vercel.app/12.gif", filename: "12.gif" },
+            { number: 13, url: "https://goyzinparis.vercel.app/13.gif", filename: "13.gif" },
+            { number: 14, url: "https://goyzinparis.vercel.app/14.gif", filename: "14.gif" },
+            { number: 15, url: "https://goyzinparis.vercel.app/15.gif", filename: "15.gif" },
+            { number: 16, url: "https://goyzinparis.vercel.app/16.gif", filename: "16.gif" },
+            { number: 17, url: "https://goyzinparis.vercel.app/17.gif", filename: "17.gif" },
+            { number: 18, url: "https://goyzinparis.vercel.app/18.gif", filename: "18.gif" },
+            { number: 19, url: "https://goyzinparis.vercel.app/19.gif", filename: "19.gif" },
+            { number: 20, url: "https://goyzinparis.vercel.app/20.gif", filename: "20.gif" }
+        ];
+
+        let currentFilter = '';
+
+        function showToast(message, duration = 2000) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), duration);
+        }
+
+        function copyToClipboard(text, successMessage) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(successMessage);
+            }).catch(err => {
+                showToast('❌ Kopyalanamadı!', 2000);
+                console.error('Kopyalama hatası:', err);
+            });
+        }
+
+        function copySingleGif(url, number) {
+            copyToClipboard(url, `✅ GIF ${number} kopyalandı! Discord'a yapıştırabilirsiniz`);
+        }
+
+        function copyAllLinks() {
+            const allLinks = gifs.map(g => g.url).join('\n');
+            copyToClipboard(allLinks, `📋 ${gifs.length} GIF linki kopyalandı!`);
+        }
+
+        function copyAllDiscordEmbeds() {
+            const discordEmbeds = gifs.map(g => `<${g.url}>`).join('\n');
+            copyToClipboard(discordEmbeds, `💬 ${gifs.length} Discord embed kodu kopyalandı!`);
+        }
+
+        function resetSearch() {
+            currentFilter = '';
+            document.getElementById('searchInput').value = '';
+            renderGifs();
+        }
+
+        function renderGifs() {
+            const grid = document.getElementById('gifGrid');
+            const filteredGifs = currentFilter === '' ? gifs : gifs.filter(g => 
+                g.filename.toLowerCase().includes(currentFilter.toLowerCase()) ||
+                g.number.toString().includes(currentFilter)
+            );
+
+            if (filteredGifs.length === 0) {
+                grid.innerHTML = '<div class="no-results">🔍 Sonuç bulunamadı...</div>';
+                document.getElementById('stats').textContent = `0/${gifs.length} GIF gösteriliyor`;
+                return;
+            }
+
+            grid.innerHTML = filteredGifs.map(gif => `
+                <div class="gif-card" onclick="copySingleGif('${gif.url}', ${gif.number})">
+                    <div class="gif-container">
+                        <img src="${gif.url}" alt="GIF ${gif.number}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x200?text=GIF+Yüklenemedi+${gif.number}'">
+                        <div class="gif-number">#${gif.number}</div>
+                        <button class="copy-btn" onclick="event.stopPropagation(); copySingleGif('${gif.url}', ${gif.number})">
+                            📋 Kopyala
+                        </button>
+                    </div>
+                    <div class="gif-info">
+                        <div class="gif-filename">${gif.filename}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('stats').textContent = `${filteredGifs.length}/${gifs.length} GIF gösteriliyor`;
+        }
+
+        // Arama işlevi
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            currentFilter = e.target.value;
+            renderGifs();
+        });
+
+        // Sayfa yüklendiğinde
+        renderGifs();
+
+        // Konsola bilgi yazdır
+        console.log('🎬 GIF Arşivi hazır!');
+        console.log(`Toplam ${gifs.length} GIF yüklendi`);
+        console.log('GIFler root dizininde: https://goyzinparis.vercel.app/1.gif ... 20.gif');
+    </script>
+</body>
+</html>
