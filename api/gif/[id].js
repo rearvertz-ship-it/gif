@@ -10,7 +10,7 @@ export default async function handler(req, res) {
       return res.status(404).end();
     }
 
-    const gifPath = `../${id}.gif`;
+    const gifPath = `./${id}.gif`;
     
     // Get client info
     const ua = req.headers['user-agent'] || 'Unknown';
