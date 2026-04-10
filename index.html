@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Atalay Doğum Günü Sayacı</title>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        overflow: hidden;
+
+        background: url('https://goyzinparis.vercel.app/6.gif') no-repeat center center;
+        background-size: 100% 100%;
+    }
+
+    .overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.6);
+        top: 0;
+        left: 0;
+        z-index: 0;
+    }
+
+    #content {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* PROFİL FOTO */
+    #pfp {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 20px;
+        border: 3px solid white;
+        box-shadow: 0 0 20px rgba(255,255,255,0.6);
+    }
+
+    #title {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    #timer {
+        font-size: 40px;
+    }
+</style>
+</head>
+<body>
+
+<div class="overlay"></div>
+
+<div id="content">
+    <img id="pfp" src="https://goyzinparis.vercel.app/atalay-pfp.png" alt="Atalay">
+    <div id="title">Atalayın doğum gününe:</div>
+    <div id="timer">Yükleniyor...</div>
+</div>
+
+<script>
+let triggered = false;
+
+function startConfetti() {
+    const duration = 3000;
+    const end = Date.now() + duration;
+
+    (function frame() {
+        confetti({
+            particleCount: 6,
+            spread: 70,
+            origin: { x: Math.random(), y: Math.random() - 0.2 }
+        });
+
+        if (Date.now() < end) {
+            requestAnimationFrame(frame);
+        }
+    })();
+}
+
+function updateTimer() {
+    const targetDate = new Date("2026-04-15T00:00:00+02:00").getTime();
+    const now = new Date().getTime();
+
+    const difference = targetDate - now;
+
+    if (difference <= 0 && !triggered) {
+        triggered = true;
+
+        document.getElementById("title").innerHTML = "🎉 Doğum günü geldi!";
+        document.getElementById("timer").innerHTML = "";
+
+        startConfetti();
+
+        setTimeout(() => {
+            window.location.href = "https://atalay.vercel.app/bd.html";
+        }, 3000);
+
+        return;
+    }
+
+    if (!triggered) {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((difference / (1000 * 60)) % 60);
+        const seconds = Math.floor((difference / 1000) % 60);
+
+        document.getElementById("timer").innerHTML =
+            days + " gün " +
+            hours + " saat " +
+            minutes + " dakika " +
+            seconds + " saniye";
+    }
+}
+
+setInterval(updateTimer, 1000);
+updateTimer();
+</script>
+
+</body>
+</html>
